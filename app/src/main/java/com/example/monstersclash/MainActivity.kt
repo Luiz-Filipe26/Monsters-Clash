@@ -28,7 +28,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         binding.cardsContainerImg.post {
-            createCardsInHand(100, 7, 120f)
+            createCardsInHand(100, 7, 120f, 2)
         }
     }
 
@@ -47,7 +47,7 @@ class MainActivity : AppCompatActivity() {
         return 1.0f
     }
 
-    private fun createCardsInHand(cardWidth: Int, cardCount: Int, totalAngle: Float) {
+    private fun createCardsInHand(cardWidth: Int, cardCount: Int, totalAngle: Float, centralCardIndex: Int) {
         val centerCardGrowRatio = 2.0
         val horizontalOffsetFromCentralCard = cardWidth * 0.6f
 
@@ -60,15 +60,18 @@ class MainActivity : AppCompatActivity() {
         val gameAreaLayout = binding.main
 
         val angleStep = totalAngle / (cardCount - 1)
-        val startAngle = -totalAngle / 2
+
+        // Calcular o startAngle para centralizar a carta selecionada com centralCardIndex
+        val startAngle = -angleStep * centralCardIndex
 
         for (i in 0 until cardCount) {
+            // O ângulo de cada carta é ajustado para garantir que centralCardIndex tenha 0º
             val angle = startAngle + i * angleStep
 
-            var currentCardWidth = 0
-            var currentCardHeight = 0
+            var currentCardWidth: Int
+            var currentCardHeight: Int
 
-            if (i == cardCount / 2) {
+            if (i == centralCardIndex) {
                 currentCardWidth = (cardWidth * sqrt(centerCardGrowRatio)).toInt()
                 currentCardHeight = (cardHeight * sqrt(centerCardGrowRatio)).toInt()
             } else {
@@ -80,16 +83,15 @@ class MainActivity : AppCompatActivity() {
             card.setImageResource(R.mipmap.card_heart_a)
             card.layoutParams = FrameLayout.LayoutParams(currentCardWidth, currentCardHeight)
 
+            // Posicionamento no eixo X (horizontal)
             card.x = centerX - currentCardWidth / 2
             card.y = centerY - currentCardHeight
 
-            if(i < cardCount / 2) {
+            if (i < centralCardIndex) {
                 card.x -= horizontalOffsetFromCentralCard
-            }
-            else if(i > cardCount / 2) {
+            } else if (i > centralCardIndex) {
                 card.x += horizontalOffsetFromCentralCard
-            }
-            else if(i == cardCount / 2) {
+            } else {
                 val centralCardVerticalOffset = currentCardWidth * 0.5f
                 card.y -= centralCardVerticalOffset
             }
