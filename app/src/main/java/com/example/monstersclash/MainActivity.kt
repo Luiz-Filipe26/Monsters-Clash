@@ -7,7 +7,9 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.core.content.ContextCompat
 import com.example.monstersclash.databinding.ActivityMainBinding
+import kotlin.math.sqrt
 
 class MainActivity : AppCompatActivity() {
 
@@ -25,54 +27,79 @@ class MainActivity : AppCompatActivity() {
             insets
         }
 
-
         binding.cardsContainerImg.post {
-            createImages()
+            createCardsInHand(100, 7, 120f)
         }
-
     }
 
-    private fun createImages() {
-        // Definindo o ponto central da área onde as cartas serão dispostas
+    private fun getAspectRatio(drawableResId: Int): Float {
+        val drawable = ContextCompat.getDrawable(this, drawableResId)
+
+        drawable?.let {
+            val width = it.intrinsicWidth
+            val height = it.intrinsicHeight
+
+            if (height != 0) {
+                return width.toFloat() / height.toFloat()
+            }
+        }
+
+        return 1.0f
+    }
+
+    private fun createCardsInHand(cardWidth: Int, cardCount: Int, totalAngle: Float) {
+        val centerCardGrowRatio = 2.0
+        val horizontalOffsetFromCentralCard = cardWidth * 0.6f
+
+        val aspectRatio = getAspectRatio(R.mipmap.card_heart_a)
+        val cardHeight = (cardWidth / aspectRatio).toInt()
+
         val centerX = binding.cardsContainerImg.x + binding.cardsContainerImg.width / 2
-        val centerY = binding.cardsContainerImg.y + binding.cardsContainerImg.height
+        val centerY = binding.cardsContainerImg.y + binding.cardsContainerImg.height / 2
 
         val gameAreaLayout = binding.main
 
-        // Configurações gerais
-        val cardCount = 7   // Quantidade de cartas
-        val totalAngle = 45f // Abertura total (graus)
-        val angleStep = totalAngle / (cardCount - 1) // Ângulo entre as cartas
-        val startAngle = -totalAngle / 2 // Ângulo inicial (para centralizar o leque)
+        val angleStep = totalAngle / (cardCount - 1)
+        val startAngle = -totalAngle / 2
 
-        // Configurações de pivô para todas as cartas
-        val pivotX = 50f // Pivô horizontal (meio da carta)
-        val pivotY = 150f // Pivô vertical (base da carta)
-
-        // LayoutParams único para todas as cartas
-        val layoutParams = FrameLayout.LayoutParams(100, 150)
-
-        // Criação das cartas
         for (i in 0 until cardCount) {
-            val angle = startAngle + i * angleStep // Calcula o ângulo de cada carta
+            val angle = startAngle + i * angleStep
+
+            var currentCardWidth = 0
+            var currentCardHeight = 0
+
+            if (i == cardCount / 2) {
+                currentCardWidth = (cardWidth * sqrt(centerCardGrowRatio)).toInt()
+                currentCardHeight = (cardHeight * sqrt(centerCardGrowRatio)).toInt()
+            } else {
+                currentCardWidth = cardWidth
+                currentCardHeight = cardHeight
+            }
 
             val card = ImageView(this)
             card.setImageResource(R.mipmap.card_heart_a)
+            card.layoutParams = FrameLayout.LayoutParams(currentCardWidth, currentCardHeight)
 
-            // Define a posição das cartas, centralizando todas no ponto (centerX, centerY)
-            card.layoutParams = layoutParams
-            card.x = centerX - pivotX  // Posição central horizontal
-            card.y = centerY - pivotY  // Posição central vertical
+            card.x = centerX - currentCardWidth / 2
+            card.y = centerY - currentCardHeight
 
-            // Aplica as transformações de pivô e rotação
-            card.pivotX = pivotX
-            card.pivotY = pivotY
+            if(i < cardCount / 2) {
+                card.x -= horizontalOffsetFromCentralCard
+            }
+            else if(i > cardCount / 2) {
+                card.x += horizontalOffsetFromCentralCard
+            }
+            else if(i == cardCount / 2) {
+                val centralCardVerticalOffset = currentCardWidth * 0.5f
+                card.y -= centralCardVerticalOffset
+            }
+
+            card.pivotX = currentCardWidth / 2f
+            card.pivotY = currentCardHeight.toFloat()
+
             card.rotation = angle
 
-            // Adiciona a carta no layout
             gameAreaLayout.addView(card)
         }
     }
-
-
 }
