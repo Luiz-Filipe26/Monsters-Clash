@@ -7,7 +7,7 @@ import android.view.ViewGroup
 class HandCards(
     private val gameAreaLayout: ViewGroup,
     private val context: Context,
-    private val cardsContainer: View
+    private val handCardsContainer: View
 ) {
     private val cards: MutableList<Card> = mutableListOf()
     private var cardWidth = CardSize.MEDIUM
@@ -17,7 +17,7 @@ class HandCards(
         this.cardWidth = cardWidth
 
         for (i in 1..cardCount) {
-            val card = Card(context, cardsContainer, this)
+            val card = Card(context, handCardsContainer, this)
             card.setCardImage(R.mipmap.card_heart_a)
             gameAreaLayout.addView(card.imageView)
             cards.add(card)

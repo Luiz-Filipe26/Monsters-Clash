@@ -9,7 +9,7 @@ import kotlin.math.sqrt
 
 class Card(
     private val context: Context,
-    private val cardsContainer: View,
+    private val handCardsContainer: View,
     private val handCards: HandCards
 ) {
     private var cardWidth = 0
@@ -36,9 +36,9 @@ class Card(
             1.0f
         }
         cardWidth = when(cardSize) {
-            CardSize.MEDIUM -> cardsContainer.width / 5
-            CardSize.SMALL -> cardsContainer.width / 5 - cardsContainer.width / 10
-            CardSize.BIG -> cardsContainer.width / 5 + cardsContainer.width / 10
+            CardSize.MEDIUM -> handCardsContainer.width / 5
+            CardSize.SMALL -> handCardsContainer.width / 5 - handCardsContainer.width / 10
+            CardSize.BIG -> handCardsContainer.width / 5 + handCardsContainer.width / 10
         }
 
 
@@ -66,8 +66,8 @@ class Card(
             currentCardHeight = (cardHeight * sqrt(hightlightedCardGrowRatio)).toInt()
         }
 
-        val centerX = cardsContainer.x + cardsContainer.width / 2
-        val centerY = cardsContainer.y + cardsContainer.height / 2
+        val centerX = handCardsContainer.x + handCardsContainer.width / 2
+        val centerY = handCardsContainer.y + handCardsContainer.height * 4/5
 
         // Calcular para destacar a carta central com grau 0
         val angleStep = totalAngle / (numOfCards - 1)
@@ -91,7 +91,7 @@ class Card(
             y = centerY - currentCardHeight / 2 + yOffset
 
             pivotX = currentCardWidth / 2f
-            pivotY = currentCardHeight.toFloat()
+            pivotY = currentCardHeight.toFloat() + 50
 
             rotation = startAngle + currentPosition * angleStep
         }

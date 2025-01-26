@@ -16,21 +16,68 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Clash Monsters!"
-            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintStart_toStartOf="parent" />
 
         <ImageView
-            android:id="@+id/cards_container_img"
-            android:background="#000000"
-            android:layout_width="300dp"
-            android:layout_height="300dp"
-            app:layout_constraintTop_toBottomOf="@+id/title_txt"
+            android:id="@+id/history_scroll"
+            android:layout_width="80dp"
+            android:layout_height="0dp"
+            android:src="@mipmap/open_parchment_scroll"
+            android:scaleType="fitXY"
+            app:layout_constraintEnd_toStartOf="@+id/table_background_img"
             app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/table_background_img"
+            app:layout_constraintBottom_toBottomOf="@id/table_background_img" />
+
+        <ImageView
+            android:id="@+id/table_background_img"
+            android:layout_marginEnd="40dp"
+            android:layout_width="0dp"
+            android:layout_height="400dp"
+            android:src="@mipmap/brown_wooden_texture_ackground"
+            android:scaleType="centerCrop"
+            app:layout_constraintTop_toBottomOf="@+id/title_txt"
+            app:layout_constraintStart_toEndOf="@+id/history_scroll"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            />
+            app:layout_constraintBottom_toTopOf="@+id/hand_cards_container" />
+
+        <include
+            android:id="@+id/mana_bar"
+            layout="@layout/mana_bar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="40dp"
+            app:layout_constraintTop_toBottomOf="@id/table_background_img"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+        <View
+            android:id="@+id/hand_cards_container"
+            android:background="#444444"
+            android:layout_width="0dp"
+            android:layout_height="100dp"
+            android:layout_marginStart="10dp"
+            app:layout_constraintHorizontal_weight="3"
+            app:layout_constraintTop_toBottomOf="@+id/table_background_img"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/draw_pile_container"
+            app:layout_constraintBottom_toBottomOf="parent" />
+
+        <View
+            android:id="@+id/draw_pile_container"
+            android:background="#444444"
+            android:layout_marginStart="10dp"
+            android:layout_width="0dp"
+            android:layout_height="100dp"
+            android:layout_marginEnd="10dp"
+            app:layout_constraintHorizontal_weight="1"
+            app:layout_constraintTop_toBottomOf="@+id/table_background_img"
+            app:layout_constraintStart_toEndOf="@+id/hand_cards_container"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent" />
+
+
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </FrameLayout>
