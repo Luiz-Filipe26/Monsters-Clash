@@ -16,24 +16,33 @@ class Card(
     private var cardHeight = 0
     val imageView = ImageView(context)
     private var aspectRatio = 1.0f
+    private var imageResId = 0
 
     init {
         //TODO("Create dummy card if not setted")
         //createCardImage(5, CardWidth.MEDIUM.value)
     }
 
-    fun createCardImage(imageResId: Int, cardWidth: Int) {
+    fun setCardImage(imageResId: Int) {
         imageView.setImageResource(imageResId)
+        this.imageResId = imageResId
+    }
 
+    fun setDimensions(cardSize: CardSize) {
         val drawable = ContextCompat.getDrawable(context, imageResId)
-
         aspectRatio = if (drawable != null && drawable.intrinsicHeight > 0) {
             drawable.intrinsicWidth.toFloat() / drawable.intrinsicHeight
         } else {
             1.0f
         }
-        this.cardWidth = cardWidth
-        this.cardHeight = (cardWidth / aspectRatio).toInt()
+        cardWidth = when(cardSize) {
+            CardSize.MEDIUM -> cardsContainer.width / 5
+            CardSize.SMALL -> cardsContainer.width / 5 - cardsContainer.width / 10
+            CardSize.BIG -> cardsContainer.width / 5 + cardsContainer.width / 10
+        }
+
+
+        cardHeight = (cardWidth / aspectRatio).toInt()
 
         imageView.layoutParams = FrameLayout.LayoutParams(cardWidth, cardHeight)
     }
@@ -42,18 +51,19 @@ class Card(
         centralCardIndex: Int,
         currentPosition: Int
     ) {
-        val numOfCards = handCards.getNumOfCards()
-        val totalAngle = handCards.totalAngle
 
-        val centerCardGrowRatio = 2.0
-        val horizontalOffsetFromCentralCard = cardWidth * 0.6f
+        val numOfCards = handCards.getNumOfCards()
+        val totalAngle = HAND_CARDS_TOTAL_ANGLE
+
+        val hightlightedCardGrowRatio = HIGHLIGHTED_CARD_GROW_RATIO
+        val xOffsetFromHighlightedCard = cardWidth * HIGHLIGHTED_X_OFFSET_RATIO
 
         var currentCardWidth = cardWidth
         var currentCardHeight = cardHeight
 
         if (currentPosition == centralCardIndex) {
-            currentCardWidth = (cardWidth * sqrt(centerCardGrowRatio)).toInt()
-            currentCardHeight = (cardHeight * sqrt(centerCardGrowRatio)).toInt()
+            currentCardWidth = (cardWidth * sqrt(hightlightedCardGrowRatio)).toInt()
+            currentCardHeight = (cardHeight * sqrt(hightlightedCardGrowRatio)).toInt()
         }
 
         val centerX = cardsContainer.x + cardsContainer.width / 2
@@ -64,21 +74,21 @@ class Card(
         val startAngle = -angleStep * centralCardIndex
 
         val xOffset = when {
-            currentPosition < centralCardIndex -> -horizontalOffsetFromCentralCard
-            currentPosition > centralCardIndex -> horizontalOffsetFromCentralCard
+            currentPosition < centralCardIndex -> -xOffsetFromHighlightedCard
+            currentPosition > centralCardIndex -> xOffsetFromHighlightedCard
             else -> 0f
         }
 
         var yOffset = 0f
         if (currentPosition == centralCardIndex) {
-            yOffset = -currentCardWidth * 0.5f
+            yOffset = -currentCardHeight * HIGHLIGHTED_Y_OFFSET_RATIO
         }
 
         imageView.apply {
             layoutParams = FrameLayout.LayoutParams(currentCardWidth, currentCardHeight)
 
             x = centerX - currentCardWidth / 2 + xOffset
-            y = centerY - currentCardHeight + yOffset
+            y = centerY - currentCardHeight / 2 + yOffset
 
             pivotX = currentCardWidth / 2f
             pivotY = currentCardHeight.toFloat()

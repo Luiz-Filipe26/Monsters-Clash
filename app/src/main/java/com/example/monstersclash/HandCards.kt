@@ -10,13 +10,15 @@ class HandCards(
     private val cardsContainer: View
 ) {
     private val cards: MutableList<Card> = mutableListOf()
-    val totalAngle = 150.0f
+    private var cardWidth = CardSize.MEDIUM
 
-    fun createHandCards(cardCount: Int, cardWidth: Int) {
+
+    fun createHandCards(cardCount: Int, cardWidth: CardSize) {
+        this.cardWidth = cardWidth
 
         for (i in 1..cardCount) {
             val card = Card(context, cardsContainer, this)
-            card.createCardImage(R.mipmap.card_heart_a, cardWidth)
+            card.setCardImage(R.mipmap.card_heart_a)
             gameAreaLayout.addView(card.imageView)
             cards.add(card)
         }
@@ -29,7 +31,16 @@ class HandCards(
 
     fun positionHandCards(centralCardIndex: Int) {
         cards.forEachIndexed { index, card ->
+            card.setDimensions(cardWidth)
             card.positionInFanOfCards(centralCardIndex, index)
+
+            // Z incremental baseado no índice
+            card.imageView.translationZ = index + 1f
+
+            // Se for a carta central, coloca em frente a todas as outras
+            if (index == centralCardIndex) {
+                card.imageView.translationZ = cards.size + 2f
+            }
         }
     }
 }
