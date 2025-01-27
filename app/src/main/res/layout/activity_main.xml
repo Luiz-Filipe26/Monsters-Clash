@@ -77,22 +77,26 @@
             app:layout_constraintStart_toEndOf="@+id/hand_cards_container"
             app:layout_constraintTop_toBottomOf="@+id/table_background_img" />
 
-        <!-- Barra de progresso sobre a imagem -->
-        <ProgressBar
-            android:id="@+id/hpProgressBar"
-            style="@android:style/Widget.ProgressBar.Horizontal"
-            android:layout_width="200.4dp"
-            android:layout_height="41.69dp"
-            android:layout_marginLeft="95dp"
-            android:max="100"
-            android:progress="100"
-            android:progressDrawable="@drawable/hp_progress_bar"
-            android:scaleX="1.2"
-            android:scaleY="1.2"
+        <TextView
+            android:id="@+id/health_bar_txt"
+            android:layout_width="100sp"
+            android:layout_height="16sp"
+            android:textSize="14sp"
+            android:text="HP: 50/220"
+            app:layout_constraintBottom_toTopOf="@+id/health_bar_container"
+            app:layout_constraintStart_toStartOf="@+id/health_bar_container"
+            />
+
+        <include
+            android:id="@+id/health_bar_container"
+            layout="@layout/health_bar_container"
+            android:layout_width="200dp"
+            android:layout_height="40dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/hand_cards_container" />
+
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </FrameLayout>

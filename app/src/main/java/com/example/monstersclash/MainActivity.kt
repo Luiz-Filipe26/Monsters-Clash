@@ -6,6 +6,9 @@ import android.graphics.PorterDuffColorFilter
 import android.graphics.Rect
 import android.os.Bundle
 import android.widget.ImageView
+import android.widget.ProgressBar
+import android.widget.TextView
+import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
@@ -66,6 +69,7 @@ class MainActivity : AppCompatActivity() {
             handCards.positionHandCards(selectedCard)
 
             fillManaBar(3)
+            updateHealthBar(60, 180)
         }
     }
 
@@ -82,6 +86,16 @@ class MainActivity : AppCompatActivity() {
             }
         }
     }
+
+    private fun updateHealthBar(hpAtual: Int, hpTotal: Int) {
+        val healthBarContainer = binding.healthBarContainer.root
+        val progressBar = healthBarContainer.findViewById<ProgressBar>(R.id.hpProgressBar)
+
+        val progressPercentage = (hpAtual * 100) / hpTotal
+        progressBar.progress = progressPercentage
+        binding.healthBarTxt.text = "HP: $hpAtual/$hpTotal"
+    }
+
 
 
 }
