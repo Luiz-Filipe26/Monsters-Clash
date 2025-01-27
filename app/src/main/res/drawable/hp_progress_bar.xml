@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="200.4dp"
+    android:height="41.69dp"
+    >
+
+    <!-- Background da barra de progresso -->
+    <item
+        android:id="@android:id/background"
+        android:width="200.4dp"
+        android:height="41.69dp"
+        android:drawable="@drawable/health_bar" />
+
+    <!-- Parte preenchida do progresso -->
+    <item
+        android:id="@android:id/progress"
+        android:height="11.7dp"
+        android:top="14dp"
+        android:width="148dp"
+        android:left="49dp">
+        <clip>
+            <shape android:shape="rectangle">
+                <solid android:color="#FF0000" />
+                <corners android:radius="5dp" />
+            </shape>
+        </clip>
+    </item>
+</layer-list>

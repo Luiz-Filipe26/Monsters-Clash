@@ -76,7 +76,7 @@ class MainActivity : AppCompatActivity() {
             val manaPointImg = child as ImageView
             if (index < manaPoints) {
                 manaPointImg.colorFilter =
-                    PorterDuffColorFilter(Color.parseColor("#206080 "), PorterDuff.Mode.SRC_IN)
+                    PorterDuffColorFilter(Color.parseColor("#206080"), PorterDuff.Mode.SRC_IN)
             } else {
                 manaPointImg.clearColorFilter()
             }
