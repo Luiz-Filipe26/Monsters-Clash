@@ -20,6 +20,26 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
+        <TextView
+            android:id="@+id/oppoent_name_txt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Opponent"
+            android:textSize="14sp"
+            app:layout_constraintTop_toBottomOf="@id/opponent_account_img"
+            app:layout_constraintStart_toStartOf="@id/opponent_account_img"
+            app:layout_constraintEnd_toEndOf="@id/opponent_account_img"/>
+
+        <ImageView
+            android:id="@+id/opponent_account_img"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:src="@drawable/account_circle"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginStart="18dp"
+            />
+
         <ImageView
             android:id="@+id/history_scroll"
             android:layout_width="80dp"
@@ -81,10 +101,29 @@
             android:id="@+id/health_bar_txt"
             android:layout_width="100sp"
             android:layout_height="16sp"
-            android:textSize="14sp"
             android:text="HP: 50/220"
+            android:textSize="14sp"
             app:layout_constraintBottom_toTopOf="@+id/health_bar_container"
-            app:layout_constraintStart_toStartOf="@+id/health_bar_container"
+            app:layout_constraintStart_toStartOf="@+id/health_bar_container" />
+
+        <TextView
+            android:id="@+id/player_name_txt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Player"
+            android:textSize="14sp"
+            app:layout_constraintBottom_toTopOf="@id/player_account_img"
+            app:layout_constraintStart_toStartOf="@id/player_account_img"
+            app:layout_constraintEnd_toEndOf="@id/player_account_img"/>
+
+        <ImageView
+            android:id="@+id/player_account_img"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:src="@drawable/account_circle"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginStart="18dp"
             />
 
         <include
