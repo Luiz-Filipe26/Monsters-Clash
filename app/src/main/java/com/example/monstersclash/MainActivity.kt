@@ -14,6 +14,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.children
+import androidx.core.view.doOnLayout
 import com.example.monstersclash.databinding.ActivityMainBinding
 
 
@@ -41,7 +42,7 @@ class MainActivity : AppCompatActivity() {
 
         handCards.createHandCards(7, CardSize.MEDIUM)
 
-        binding.main.post {
+        binding.main.doOnLayout {
             val validSwipeArea = Rect().apply {
                 binding.handCardsContainer.getGlobalVisibleRect(this)
             }
