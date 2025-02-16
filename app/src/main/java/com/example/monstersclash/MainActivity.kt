@@ -1,10 +1,13 @@
 package com.example.monstersclash
 
+import android.app.AlertDialog
+import android.app.Dialog
 import android.graphics.Color
 import android.graphics.PorterDuff
 import android.graphics.PorterDuffColorFilter
 import android.graphics.Rect
 import android.os.Bundle
+import android.util.Log
 import android.widget.ImageView
 import android.widget.ProgressBar
 import android.widget.TextView
@@ -63,6 +66,10 @@ class MainActivity : AppCompatActivity() {
                         handCards.positionHandCards(++selectedCard)
                     }
 
+                    Direction.UP -> if (handCards.getNumOfCards() - 1 > 0 ){
+                        val dialog: AlertDialog = createPositionDialog()
+                        dialog.show()
+                    }
                     else -> {}
                 }
             }
@@ -97,6 +104,27 @@ class MainActivity : AppCompatActivity() {
         binding.healthBarTxt.text = "HP: $hpAtual/$hpTotal"
     }
 
+    private fun createPositionDialog(): AlertDialog {
+        val builder: AlertDialog.Builder = AlertDialog.Builder(this)
+        builder
+            .setTitle("Posicionar em mode de:")
+            .setPositiveButton("Posicionar") { dialog, which ->
+                Log.d("PrintDebug", "Posicionado")
+            }
+            .setNegativeButton("Cancelar") { dialog, which ->
+                Log.d("PrintDebug", "Cancelado")
+            }
+            .setSingleChoiceItems(
+                arrayOf("ATK", "DEF"), 0
+            ) { dialog, which ->
+                if(which == 0) {
+                    Log.d("PrintDebug", "ATK")
+                } else {
+                    Log.d("PrintDebug", "DEF")
+                }
+            }
 
+        return builder.create()
+    }
 
 }
