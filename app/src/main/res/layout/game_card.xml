@@ -1,100 +1,165 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="80dp"
+    android:layout_width="70dp"
     android:layout_height="100dp"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <com.google.android.material.imageview.ShapeableImageView
-        android:id="@+id/monster_img"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:scaleType="centerCrop"
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:src="@mipmap/card_container"
+        android:scaleType="fitXY"
+        />
+
+    <!-- Guideline superior -->
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline_cardimg_top"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.21" />
+
+    <!-- Guideline inferior -->
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline_cardimg_bottom"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.71" />
+
+    <!-- Guideline da esquerda -->
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline_cardimg_start"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.13" />
+
+    <!-- Guideline da direita -->
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline_cardimg_end"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.865" />
+
+    <ImageView
+        android:id="@+id/card_monster_img"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
         android:src="@mipmap/monster_1"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:shapeAppearanceOverlay="@style/CircularView" />
+        app:layout_constraintStart_toStartOf="@id/guideline_cardimg_start"
+        app:layout_constraintEnd_toEndOf="@id/guideline_cardimg_end"
+        app:layout_constraintTop_toTopOf="@id/guideline_cardimg_top"
+        app:layout_constraintBottom_toBottomOf="@id/guideline_cardimg_bottom" />
 
-
-    <ImageView
-        android:id="@+id/card_mana_img"
-        android:layout_width="20dp"
-        android:layout_height="20dp"
-        android:src="@drawable/hexagon"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:tint="@android:color/holo_blue_dark" />
-
-
-    <TextView
-        android:id="@+id/card_description_txt"
+    <!-- Guideline superior -->
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline_cardtitle_top"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@+id/monster_img"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:textSize="10sp"
-        android:text="Card Description"
-        />
-
-    <ImageView
-        android:id="@+id/card_attack_img"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:src="@drawable/pentagon"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        android:layout_marginBottom="5dp"
-        app:tint="@android:color/holo_red_dark"
-        />
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.07" />
 
     <TextView
-        android:id="@+id/card_attack_txt"
+        android:id="@+id/card_title_txt"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="ATK"
-        android:textSize="5sp"
-        app:layout_constraintVertical_bias="0.4"
-        app:layout_constraintStart_toStartOf="@id/card_attack_img"
-        app:layout_constraintEnd_toEndOf="@+id/card_attack_img"
-        app:layout_constraintBottom_toBottomOf="@id/card_attack_img"
-        app:layout_constraintTop_toTopOf="@id/card_attack_img"
-    />
-
-
-    <TextView
-        android:id="@+id/card_attack_number_txt"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="50"
+        android:text="Dangerous monster"
         android:textSize="4sp"
-        app:layout_constraintTop_toBottomOf="@+id/card_attack_txt"
-        app:layout_constraintStart_toStartOf="@+id/card_attack_txt"
-        app:layout_constraintEnd_toEndOf="@+id/card_attack_txt"
+        app:layout_constraintTop_toTopOf="@id/guideline_cardtitle_top"
+        app:layout_constraintStart_toStartOf="@id/guideline_cardimg_start"
+        app:layout_constraintEnd_toEndOf="@id/guideline_cardimg_end"
         />
 
-    <ImageView
-        android:id="@+id/card_defense_img"
-        android:layout_width="20dp"
-        android:layout_height="20dp"
-        android:src="@drawable/circle"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginBottom="5dp"
-        app:tint="@android:color/holo_blue_dark"
-        />
-
-    <TextView
-        android:id="@+id/card_defense_txt"
+    <!-- Guideline superior -->
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline_carddesc_top"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="DEF"
-        android:textSize="5sp"
-        app:layout_constraintVertical_bias="0.4"
-        app:layout_constraintStart_toStartOf="@id/card_defense_img"
-        app:layout_constraintEnd_toEndOf="@+id/card_defense_img"
-        app:layout_constraintBottom_toBottomOf="@id/card_defense_img"
-        app:layout_constraintTop_toTopOf="@id/card_defense_img"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.77" />
+
+    <!-- Guideline inferior -->
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline_carddesc_bottom"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.9" />
+
+    <!-- Guideline da esquerda -->
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline_carddesc_start"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.11" />
+
+    <!-- Guideline da direita -->
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline_carddesc_end"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.88" />
+
+    <TextView
+        android:id="@+id/card_desc_txt"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:textSize="3sp"
+        android:text="This monster is very brave"
+        app:layout_constraintStart_toStartOf="@id/guideline_carddesc_start"
+        app:layout_constraintEnd_toEndOf="@id/guideline_carddesc_end"
+        app:layout_constraintTop_toTopOf="@id/guideline_carddesc_top"
+        app:layout_constraintBottom_toBottomOf="@id/guideline_carddesc_bottom" />
+
+    <!-- Guideline superior -->
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline_cardatk_top"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.90" />
+
+    <!-- Guideline da esquerda -->
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline_cardatk_start"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.62" />
+
+    <TextView
+        android:id="@+id/card_atk_txt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="3sp"
+        android:text="70"
+        app:layout_constraintStart_toStartOf="@id/guideline_cardatk_start"
+        app:layout_constraintTop_toTopOf="@id/guideline_cardatk_top"
         />
+
+
+    <!-- Guideline da esquerda -->
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline_carddef_start"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.81" />
+
+    <TextView
+        android:id="@+id/card_def_txt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="3sp"
+        android:text="30"
+        app:layout_constraintStart_toStartOf="@id/guideline_carddef_start"
+        app:layout_constraintTop_toTopOf="@id/guideline_cardatk_top"
+        />
+
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
