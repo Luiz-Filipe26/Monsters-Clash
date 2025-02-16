@@ -1,5 +1,6 @@
 package com.example.monstersclash
 
+import android.util.Log
 import android.view.MotionEvent
 import android.view.View
 import kotlin.math.abs
@@ -50,7 +51,8 @@ class GestureHandler {
                         // Ajustar o ângulo para o intervalo [0, 360), garantindo que 0º seja à direita.
                         val normalizedAngle = (angle + 360) % 360
 
-                        // Verificar as direções com base no ângulo e delta significativo.
+                        // Verificar as direções com base no ângulo e delta significativo
+
                         when {
                             // Direção para a direita (0º, ou próximo de 360º).
                             (normalizedAngle in 345.0..360.0) || (normalizedAngle in 0.0..15.0) -> {
@@ -63,7 +65,7 @@ class GestureHandler {
                             }
 
                             // Direção para cima (90º).
-                            normalizedAngle in 75.0..105.0 -> {
+                            normalizedAngle in 250.0..300.0 -> {
                                 if (abs(deltaY) > minDeltaDirection) finishedSwipeHandler(Direction.UP)
                             }
 

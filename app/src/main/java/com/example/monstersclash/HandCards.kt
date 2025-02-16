@@ -1,6 +1,7 @@
 package com.example.monstersclash
 
 import android.content.Context
+import android.util.Log
 import android.view.View
 import android.view.ViewGroup
 
@@ -27,6 +28,12 @@ class HandCards(
 
     fun getNumOfCards() : Int {
         return cards.size
+    }
+
+    fun removeCardFromHand(cardId: Int) {
+        val card: Card = cards[cardId]
+        gameAreaLayout.removeView(card.imageView)
+        cards.removeAt(cardId)
     }
 
     fun positionHandCards(centralCardIndex: Int) {
