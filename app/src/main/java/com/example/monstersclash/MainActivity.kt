@@ -109,7 +109,10 @@ class MainActivity : AppCompatActivity() {
         builder
             .setTitle("Posicionar em mode de:")
             .setPositiveButton("Posicionar") { dialog, which ->
-                Log.d("PrintDebug", "Posicionado")
+                val nextCard: Int = if(selectedCard > 0) --selectedCard else 0
+
+                handCards.removeCardFromHand(selectedCard)
+                handCards.positionHandCards(nextCard)
             }
             .setNegativeButton("Cancelar") { dialog, which ->
                 Log.d("PrintDebug", "Cancelado")
@@ -126,5 +129,4 @@ class MainActivity : AppCompatActivity() {
 
         return builder.create()
     }
-
 }
