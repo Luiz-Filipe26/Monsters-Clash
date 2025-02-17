@@ -1,9 +1,14 @@
 package com.example.monstersclash
 
 import android.content.Context
+import android.graphics.Bitmap
+import android.graphics.Canvas
+import android.view.LayoutInflater
 import android.view.View
 import android.widget.FrameLayout
 import android.widget.ImageView
+import android.widget.TextView
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import kotlin.math.sqrt
 
@@ -95,5 +100,41 @@ class Card(
 
             rotation = startAngle + currentPosition * angleStep
         }
+    }
+
+    fun createMonsterCard(
+        monsterImage: Bitmap,
+        title: String,
+        description: String,
+        attack: Int,
+        defense: Int
+    ): ImageView {
+        val layoutInflater = LayoutInflater.from(context)
+        val layoutView = layoutInflater.inflate(R.layout.game_card, null) as ConstraintLayout
+
+        layoutView.findViewById<ImageView>(R.id.card_monster_img).setImageBitmap(monsterImage)
+        layoutView.findViewById<TextView>(R.id.card_title_txt).text = title
+        layoutView.findViewById<TextView>(R.id.card_desc_txt).text = description
+        layoutView.findViewById<TextView>(R.id.card_atk_txt).text = "$attack"
+        layoutView.findViewById<TextView>(R.id.card_def_txt).text = "$defense"
+
+        val imageView = ImageView(context)
+        imageView.setImageBitmap(renderViewToBitmap(layoutView))
+
+        return imageView
+    }
+
+    private fun renderViewToBitmap(view: View): Bitmap {
+        view.measure(
+            View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED),
+            View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED)
+        )
+        view.layout(0, 0, view.measuredWidth, view.measuredHeight)
+
+        val bitmap = Bitmap.createBitmap(view.measuredWidth, view.measuredHeight, Bitmap.Config.ARGB_8888)
+        val canvas = Canvas(bitmap)
+        view.draw(canvas)
+
+        return bitmap
     }
 }
