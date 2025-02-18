@@ -3,6 +3,7 @@ package com.example.monstersclash
 import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.Canvas
+import android.graphics.drawable.BitmapDrawable
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.FrameLayout
@@ -34,18 +35,14 @@ class Card(
     }
 
     fun setDimensions(cardSize: CardSize) {
-        val drawable = ContextCompat.getDrawable(context, imageResId)
-        aspectRatio = if (drawable != null && drawable.intrinsicHeight > 0) {
-            drawable.intrinsicWidth.toFloat() / drawable.intrinsicHeight
-        } else {
-            1.0f
-        }
-        cardWidth = when(cardSize) {
-            CardSize.MEDIUM -> handCardsContainer.width / 5
-            CardSize.SMALL -> handCardsContainer.width / 5 - handCardsContainer.width / 10
-            CardSize.BIG -> handCardsContainer.width / 5 + handCardsContainer.width / 10
-        }
+        val bitmap = (imageView.drawable as BitmapDrawable).bitmap
+        aspectRatio = bitmap.width.toFloat() / bitmap.height.toFloat()
 
+        cardWidth = when (cardSize) {
+            CardSize.MEDIUM -> handCardsContainer.width / 2
+            CardSize.SMALL -> handCardsContainer.width / 2 - handCardsContainer.width / 10
+            CardSize.BIG -> handCardsContainer.width / 2 + handCardsContainer.width / 10
+        }
 
         cardHeight = (cardWidth / aspectRatio).toInt()
 
@@ -72,7 +69,7 @@ class Card(
         }
 
         val centerX = handCardsContainer.x + handCardsContainer.width / 2
-        val centerY = handCardsContainer.y + handCardsContainer.height * 4/5
+        val centerY = handCardsContainer.y + handCardsContainer.height * 4 / 5
 
         // Calcular para destacar a carta central com grau 0
         val angleStep = totalAngle / (numOfCards - 1)
@@ -103,37 +100,33 @@ class Card(
     }
 
     fun createMonsterCard(
-        monsterImage: Bitmap,
-        title: String,
-        description: String,
-        attack: Int,
-        defense: Int
-    ): ImageView {
+        monster: Monster
+    ) {
         val layoutInflater = LayoutInflater.from(context)
         val layoutView = layoutInflater.inflate(R.layout.game_card, null) as ConstraintLayout
 
-        layoutView.findViewById<ImageView>(R.id.card_monster_img).setImageBitmap(monsterImage)
-        layoutView.findViewById<TextView>(R.id.card_title_txt).text = title
-        layoutView.findViewById<TextView>(R.id.card_desc_txt).text = description
-        layoutView.findViewById<TextView>(R.id.card_atk_txt).text = "$attack"
-        layoutView.findViewById<TextView>(R.id.card_def_txt).text = "$defense"
+        layoutView.findViewById<ImageView>(R.id.card_monster_img).setImageBitmap(monster.monsterImage)
+        layoutView.findViewById<TextView>(R.id.card_title_txt).text = monster.name
+        layoutView.findViewById<TextView>(R.id.card_desc_txt).text = monster.description
+        layoutView.findViewById<TextView>(R.id.card_atk_txt).text = "${monster.attack}"
+        layoutView.findViewById<TextView>(R.id.card_def_txt).text = "${monster.defense}"
 
-        val imageView = ImageView(context)
-        imageView.setImageBitmap(renderViewToBitmap(layoutView))
-
-        return imageView
-    }
-
-    private fun renderViewToBitmap(view: View): Bitmap {
-        view.measure(
+        layoutView.measure(
             View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED),
             View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED)
         )
-        view.layout(0, 0, view.measuredWidth, view.measuredHeight)
 
-        val bitmap = Bitmap.createBitmap(view.measuredWidth, view.measuredHeight, Bitmap.Config.ARGB_8888)
+        layoutView.layout(0, 0, layoutView.measuredWidth, layoutView.measuredHeight)
+
+        val imageBitmap = convertLayoutToBitmap(layoutView)
+        this.imageView.setImageBitmap(imageBitmap)
+    }
+
+    private fun convertLayoutToBitmap(layout: View): Bitmap {
+        val bitmap = Bitmap.createBitmap(layout.measuredWidth, layout.measuredHeight, Bitmap.Config.ARGB_8888)
         val canvas = Canvas(bitmap)
-        view.draw(canvas)
+
+        layout.draw(canvas)
 
         return bitmap
     }

@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="70dp"
-    android:layout_height="100dp"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="400px"
+    android:layout_height="580px"
+    tools:ignore="PxUsage"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <ImageView
@@ -66,7 +68,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Dangerous monster"
-        android:textSize="4sp"
+        android:textColor="@color/black"
+        android:textSize="50px"
         app:layout_constraintTop_toTopOf="@id/guideline_cardtitle_top"
         app:layout_constraintStart_toStartOf="@id/guideline_cardimg_start"
         app:layout_constraintEnd_toEndOf="@id/guideline_cardimg_end"
@@ -108,8 +111,9 @@
         android:id="@+id/card_desc_txt"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:textSize="3sp"
+        android:textSize="40px"
         android:text="This monster is very brave"
+        android:textColor="@color/black"
         app:layout_constraintStart_toStartOf="@id/guideline_carddesc_start"
         app:layout_constraintEnd_toEndOf="@id/guideline_carddesc_end"
         app:layout_constraintTop_toTopOf="@id/guideline_carddesc_top"
@@ -121,7 +125,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.90" />
+        app:layout_constraintGuide_percent="0.898" />
 
     <!-- Guideline da esquerda -->
     <androidx.constraintlayout.widget.Guideline
@@ -129,14 +133,15 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        app:layout_constraintGuide_percent="0.62" />
+        app:layout_constraintGuide_percent="0.61" />
 
     <TextView
         android:id="@+id/card_atk_txt"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="3sp"
-        android:text="70"
+        android:textSize="42px"
+        android:text="700"
+        android:textColor="@color/black"
         app:layout_constraintStart_toStartOf="@id/guideline_cardatk_start"
         app:layout_constraintTop_toTopOf="@id/guideline_cardatk_top"
         />
@@ -148,14 +153,15 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        app:layout_constraintGuide_percent="0.81" />
+        app:layout_constraintGuide_percent="0.8" />
 
     <TextView
         android:id="@+id/card_def_txt"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="3sp"
-        android:text="30"
+        android:textSize="42px"
+        android:text="300"
+        android:textColor="@color/black"
         app:layout_constraintStart_toStartOf="@id/guideline_carddef_start"
         app:layout_constraintTop_toTopOf="@id/guideline_cardatk_top"
         />

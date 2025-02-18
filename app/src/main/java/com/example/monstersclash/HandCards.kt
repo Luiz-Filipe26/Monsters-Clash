@@ -2,7 +2,6 @@ package com.example.monstersclash
 
 import android.content.Context
 import android.graphics.BitmapFactory
-import android.util.Log
 import android.view.View
 import android.view.ViewGroup
 
@@ -17,35 +16,29 @@ class HandCards(
 
     fun createHandCards(cardCount: Int, cardWidth: CardSize) {
         this.cardWidth = cardWidth
-        val monsterBitmap = BitmapFactory.decodeResource(context.resources, R.layout.game_card)
+
         for (i in 1..cardCount) {
             val card = Card(context, handCardsContainer, this)
-            val monster: Monster = Monster(
+            val monsterImageBitmap =
+                BitmapFactory.decodeResource(context.resources, R.mipmap.monster_1)
+
+            val monster = Monster(
                 "Monstro",
                 "Descricao do monstro",
-                1000,
-                200,
-
-                )
-
-            val monsterCardImageView = card.createMonsterCard(
-                monsterBitmap,
-                monster.name,
-                monster.description,
-                monster.ataque,
-                monster.defesa
+                80,
+                100,
+                monsterImageBitmap
             )
 
-            monster.cardImageView = monsterCardImageView
+            card.createMonsterCard(monster)
 
-            card.setCardImage(R.mipmap.card_heart_a)
-            gameAreaLayout.addView(monsterCardImageView)
+            gameAreaLayout.addView(card.imageView)
             cards.add(card)
         }
 
     }
 
-    fun getNumOfCards() : Int {
+    fun getNumOfCards(): Int {
         return cards.size
     }
 

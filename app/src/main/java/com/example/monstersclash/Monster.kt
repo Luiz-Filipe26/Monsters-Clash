@@ -1,11 +1,11 @@
 package com.example.monstersclash
 
-import android.widget.ImageView
+import android.graphics.Bitmap
 
 class Monster(
     val name: String,
     val description: String,
-    val ataque: Int,
-    val defesa: Int,
-    var cardImageView: ImageView? = null
+    val attack: Int,
+    val defense: Int,
+    val monsterImage: Bitmap
 )
