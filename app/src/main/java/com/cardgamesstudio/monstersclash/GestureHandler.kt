@@ -1,6 +1,5 @@
-package com.example.monstersclash
+package com.cardgamesstudio.monstersclash
 
-import android.util.Log
 import android.view.MotionEvent
 import android.view.View
 import kotlin.math.abs

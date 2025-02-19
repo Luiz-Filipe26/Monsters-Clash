@@ -1,4 +1,4 @@
-package com.example.monstersclash
+package com.cardgamesstudio.monstersclash
 
 import android.content.Context
 import android.graphics.BitmapFactory

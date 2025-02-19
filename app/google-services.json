@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "1007529661404",
+    "project_id": "monsters-clash-game",
+    "storage_bucket": "monsters-clash-game.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1007529661404:android:35cc362130e2c3773d7519",
+        "android_client_info": {
+          "package_name": "com.cardsgamestudio.monstersclash"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDm4PxF2wqRYR1PcJT613W0bTHInzZU9I0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

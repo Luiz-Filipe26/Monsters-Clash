@@ -1,4 +1,4 @@
-package com.example.monstersclash
+package com.cardgamesstudio.monstersclash
 
 import android.content.Context
 import android.graphics.Bitmap
@@ -10,7 +10,6 @@ import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
-import androidx.core.content.ContextCompat
 import kotlin.math.sqrt
 
 class Card(
@@ -39,9 +38,9 @@ class Card(
         aspectRatio = bitmap.width.toFloat() / bitmap.height.toFloat()
 
         cardWidth = when (cardSize) {
-            CardSize.MEDIUM -> handCardsContainer.width / 2
-            CardSize.SMALL -> handCardsContainer.width / 2 - handCardsContainer.width / 10
-            CardSize.BIG -> handCardsContainer.width / 2 + handCardsContainer.width / 10
+            CardSize.MEDIUM -> handCardsContainer.width / 4
+            CardSize.SMALL -> handCardsContainer.width / 4 - handCardsContainer.width / 10
+            CardSize.BIG -> handCardsContainer.width / 4 + handCardsContainer.width / 10
         }
 
         cardHeight = (cardWidth / aspectRatio).toInt()

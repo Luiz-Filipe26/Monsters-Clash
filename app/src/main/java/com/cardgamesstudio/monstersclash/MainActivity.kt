@@ -1,7 +1,6 @@
-package com.example.monstersclash
+package com.cardgamesstudio.monstersclash
 
 import android.app.AlertDialog
-import android.app.Dialog
 import android.graphics.Color
 import android.graphics.PorterDuff
 import android.graphics.PorterDuffColorFilter
@@ -10,15 +9,13 @@ import android.os.Bundle
 import android.util.Log
 import android.widget.ImageView
 import android.widget.ProgressBar
-import android.widget.TextView
-import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.children
 import androidx.core.view.doOnLayout
-import com.example.monstersclash.databinding.ActivityMainBinding
+import com.cardgamesstudio.monstersclash.databinding.ActivityMainBinding
 
 
 class MainActivity : AppCompatActivity() {

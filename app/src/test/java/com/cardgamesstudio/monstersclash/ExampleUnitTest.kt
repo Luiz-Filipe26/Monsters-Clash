@@ -1,4 +1,4 @@
-package com.example.monstersclash
+package com.cardgamesstudio.monstersclash
 
 import org.junit.Test
 
