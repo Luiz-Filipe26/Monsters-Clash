@@ -1,25 +1,19 @@
 package com.cardgamesstudio.monstersclash
 
 import android.content.Context
-import android.graphics.Bitmap
-import android.graphics.Canvas
 import android.graphics.drawable.BitmapDrawable
-import android.view.LayoutInflater
 import android.view.View
 import android.widget.FrameLayout
 import android.widget.ImageView
-import android.widget.TextView
-import androidx.constraintlayout.widget.ConstraintLayout
 import kotlin.math.sqrt
 
 class Card(
-    private val context: Context,
+    val imageView : ImageView,
     private val handCardsContainer: View,
     private val handCards: HandCards
 ) {
     private var cardWidth = 0
     private var cardHeight = 0
-    val imageView = ImageView(context)
     private var aspectRatio = 1.0f
     private var imageResId = 0
 
@@ -96,37 +90,5 @@ class Card(
 
             rotation = startAngle + currentPosition * angleStep
         }
-    }
-
-    fun createMonsterCard(
-        monster: Monster
-    ) {
-        val layoutInflater = LayoutInflater.from(context)
-        val layoutView = layoutInflater.inflate(R.layout.game_card, null) as ConstraintLayout
-
-        layoutView.findViewById<ImageView>(R.id.card_monster_img).setImageBitmap(monster.monsterImage)
-        layoutView.findViewById<TextView>(R.id.card_title_txt).text = monster.name
-        layoutView.findViewById<TextView>(R.id.card_desc_txt).text = monster.description
-        layoutView.findViewById<TextView>(R.id.card_atk_txt).text = "${monster.attack}"
-        layoutView.findViewById<TextView>(R.id.card_def_txt).text = "${monster.defense}"
-
-        layoutView.measure(
-            View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED),
-            View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED)
-        )
-
-        layoutView.layout(0, 0, layoutView.measuredWidth, layoutView.measuredHeight)
-
-        val imageBitmap = convertLayoutToBitmap(layoutView)
-        this.imageView.setImageBitmap(imageBitmap)
-    }
-
-    private fun convertLayoutToBitmap(layout: View): Bitmap {
-        val bitmap = Bitmap.createBitmap(layout.measuredWidth, layout.measuredHeight, Bitmap.Config.ARGB_8888)
-        val canvas = Canvas(bitmap)
-
-        layout.draw(canvas)
-
-        return bitmap
     }
 }

@@ -1,13 +1,12 @@
 package com.cardgamesstudio.monstersclash
 
 import android.content.Context
-import android.graphics.BitmapFactory
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 
 class HandCards(
     private val gameAreaLayout: ViewGroup,
-    private val context: Context,
     private val handCardsContainer: View
 ) {
     private val cards: MutableList<Card> = mutableListOf()
@@ -18,17 +17,7 @@ class HandCards(
         this.cardWidth = cardWidth
 
         for (i in 1..cardCount) {
-            val card = Card(context, handCardsContainer, this)
-            val monsterImageBitmap =
-                BitmapFactory.decodeResource(context.resources, R.mipmap.monster_1)
-
-            val monster = Monster(
-                "Monstro",
-                "Descricao do monstro",
-                80,
-                100,
-                monsterImageBitmap
-            )
+            val card = Card(ImageView(gameAreaLayout.context), handCardsContainer, this)
 
             card.createMonsterCard(monster)
 

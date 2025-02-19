@@ -15,7 +15,8 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.children
 import androidx.core.view.doOnLayout
-import com.cardgamesstudio.monstersclash.databinding.ActivityMainBinding
+import com.cardsgamestudio.monstersclash.R
+import com.cardsgamestudio.monstersclash.databinding.ActivityMainBinding
 
 
 class MainActivity : AppCompatActivity() {
@@ -37,8 +38,10 @@ class MainActivity : AppCompatActivity() {
             insets
         }
 
-        handCards = HandCards(binding.main, this, binding.handCardsContainer)
+        handCards = HandCards(binding.main, binding.handCardsContainer)
         selectedCard = 3
+
+        val cardsLoader = CardsLoader(binding.main)
 
         handCards.createHandCards(7, CardSize.MEDIUM)
 

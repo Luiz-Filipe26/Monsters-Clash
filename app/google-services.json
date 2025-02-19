@@ -7,7 +7,7 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:1007529661404:android:35cc362130e2c3773d7519",
+        "mobsilesdk_app_id": "1:1007529661404:android:35cc362130e2c3773d7519",
         "android_client_info": {
           "package_name": "com.cardsgamestudio.monstersclash"
         }
