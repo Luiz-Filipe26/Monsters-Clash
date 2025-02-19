@@ -19,6 +19,6 @@ class ExampleInstrumentedTest {
     fun useAppContext() {
         // Context of the app under test.
         val appContext = InstrumentationRegistry.getInstrumentation().targetContext
-        assertEquals("com.cardsgamestudio.monstersclash", appContext.packageName)
+        assertEquals("com.cardgamesstudio.monstersclash", appContext.packageName)
     }
 }

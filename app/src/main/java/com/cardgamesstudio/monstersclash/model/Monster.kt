@@ -1,4 +1,4 @@
-package com.cardgamesstudio.monstersclash
+package com.cardgamesstudio.monstersclash.model
 
 import android.graphics.Bitmap
 

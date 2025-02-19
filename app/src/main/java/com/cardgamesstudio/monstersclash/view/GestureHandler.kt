@@ -1,7 +1,8 @@
-package com.cardgamesstudio.monstersclash
+package com.cardgamesstudio.monstersclash.view
 
 import android.view.MotionEvent
 import android.view.View
+import com.cardgamesstudio.monstersclash.constants.Direction
 import kotlin.math.abs
 import kotlin.math.atan2
 

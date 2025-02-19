@@ -1,5 +1,6 @@
 package com.cardgamesstudio.monstersclash
 
+import com.cardgamesstudio.monstersclash.model.HandCards
 import android.app.AlertDialog
 import android.graphics.Color
 import android.graphics.PorterDuff
@@ -7,6 +8,8 @@ import android.graphics.PorterDuffColorFilter
 import android.graphics.Rect
 import android.os.Bundle
 import android.util.Log
+import android.view.LayoutInflater
+import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.ProgressBar
 import androidx.activity.enableEdgeToEdge
@@ -15,15 +18,20 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.children
 import androidx.core.view.doOnLayout
-import com.cardsgamestudio.monstersclash.R
-import com.cardsgamestudio.monstersclash.databinding.ActivityMainBinding
+import com.cardgamesstudio.monstersclash.constants.Direction
+import com.cardgamesstudio.monstersclash.databinding.ActivityMainBinding
+import com.cardgamesstudio.monstersclash.model.CardInfoLoader
+import com.cardgamesstudio.monstersclash.model.DrawPile
+import com.cardgamesstudio.monstersclash.view.GestureHandler
+import com.cardgamesstudio.monstersclash.view.HandCardsView
+import com.cardgamesstudio.monstersclash.viewmodel.HandCardsViewModel
 
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
+    private lateinit var handCardsView: HandCardsView
     private lateinit var handCards: HandCards
-    private var selectedCard = 0
     private var gestureHandler = GestureHandler()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -38,47 +46,24 @@ class MainActivity : AppCompatActivity() {
             insets
         }
 
-        handCards = HandCards(binding.main, binding.handCardsContainer)
-        selectedCard = 3
+        val inflater = LayoutInflater.from(this)
+        val gameCard = inflater.inflate(R.layout.game_card, null) as ViewGroup
 
-        val cardsLoader = CardsLoader(binding.main)
+        val cardInfoLoader = CardInfoLoader(gameCard)
+        cardInfoLoader.loadFromDatabase()
+        val drawPile = DrawPile(cardInfoLoader.getNameToCardData())
+        val cardList = drawPile.take(7).toMutableList()
 
-        handCards.createHandCards(7, CardSize.MEDIUM)
+        handCards = HandCards(cardList, 4)
+        val handCardsViewModel = HandCardsViewModel(handCards)
+        handCardsView = HandCardsView(binding.main, binding.handCardsContainer, handCardsViewModel)
 
-        binding.main.doOnLayout {
-            val validSwipeArea = Rect().apply {
-                binding.handCardsContainer.getGlobalVisibleRect(this)
-            }
+        handCardsView.createHandCards(cardList)
 
-            gestureHandler.detectSwipe(
-                binding.main,
-                binding.main.width / 10f,
-                testIsValidArea = { x, y ->
-                    validSwipeArea.contains(x.toInt(), y.toInt())
-                }
-            ) { direction ->
-                when (direction) {
-                    Direction.RIGHT -> if (selectedCard - 1 >= 0) {
-                        handCards.positionHandCards(--selectedCard)
-                    }
 
-                    Direction.LEFT -> if (selectedCard + 1 < handCards.getNumOfCards()) {
-                        handCards.positionHandCards(++selectedCard)
-                    }
 
-                    Direction.UP -> if (handCards.getNumOfCards() - 1 > 0 ){
-                        val dialog: AlertDialog = createPositionDialog()
-                        dialog.show()
-                    }
-                    else -> {}
-                }
-            }
-
-            handCards.positionHandCards(selectedCard)
-
-            fillManaBar(3)
-            updateHealthBar(60, 180)
-        }
+        fillManaBar(3)
+        updateHealthBar(60, 180)
     }
 
     private fun fillManaBar(manaPoints: Int) {
@@ -102,31 +87,5 @@ class MainActivity : AppCompatActivity() {
         val progressPercentage = (hpAtual * 100) / hpTotal
         progressBar.progress = progressPercentage
         binding.healthBarTxt.text = "HP: $hpAtual/$hpTotal"
-    }
-
-    private fun createPositionDialog(): AlertDialog {
-        val builder: AlertDialog.Builder = AlertDialog.Builder(this)
-        builder
-            .setTitle("Posicionar em mode de:")
-            .setPositiveButton("Posicionar") { dialog, which ->
-                val nextCard: Int = if(selectedCard > 0) --selectedCard else 0
-
-                handCards.removeCardFromHand(selectedCard)
-                handCards.positionHandCards(nextCard)
-            }
-            .setNegativeButton("Cancelar") { dialog, which ->
-                Log.d("PrintDebug", "Cancelado")
-            }
-            .setSingleChoiceItems(
-                arrayOf("ATK", "DEF"), 0
-            ) { dialog, which ->
-                if(which == 0) {
-                    Log.d("PrintDebug", "ATK")
-                } else {
-                    Log.d("PrintDebug", "DEF")
-                }
-            }
-
-        return builder.create()
     }
 }

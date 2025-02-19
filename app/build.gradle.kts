@@ -5,11 +5,11 @@ plugins {
 }
 
 android {
-    namespace = "com.cardsgamestudio.monstersclash"
+    namespace = "com.cardgamesstudio.monstersclash"
     compileSdk = 35
 
     defaultConfig {
-        applicationId = "com.cardsgamestudio.monstersclash"
+        applicationId = "com.cardgamesstudio.monstersclash"
         minSdk = 24
         targetSdk = 35
         versionCode = 1
@@ -47,6 +47,8 @@ dependencies {
     implementation(libs.androidx.activity)
     implementation(libs.androidx.constraintlayout)
     implementation(libs.firebase.storage)
+    implementation(libs.androidx.lifecycle.livedata.ktx)
+    implementation(libs.androidx.lifecycle.viewmodel.ktx)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)

@@ -1,4 +1,4 @@
-package com.cardgamesstudio.monstersclash
+package com.cardgamesstudio.monstersclash.constants
 
 enum class Direction {
     UP,
