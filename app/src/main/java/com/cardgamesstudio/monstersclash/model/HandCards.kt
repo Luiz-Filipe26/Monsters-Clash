@@ -3,12 +3,12 @@ package com.cardgamesstudio.monstersclash.model
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 
-class HandCards(initialCardList: MutableList<Card>, currentCardIndex: Int) {
+class HandCards(initialGameCardList: MutableList<GameCard>, currentCardIndex: Int) {
 
-    private val cardList = MutableLiveData(initialCardList)
+    private val cardList = MutableLiveData(initialGameCardList)
     private val currentCardIndex = MutableLiveData(currentCardIndex)
 
-    fun getCardList(): LiveData<MutableList<Card>> {
+    fun getCardList(): LiveData<MutableList<GameCard>> {
         return cardList
     }
 
@@ -32,9 +32,9 @@ class HandCards(initialCardList: MutableList<Card>, currentCardIndex: Int) {
         }
     }
 
-    fun addCard(card: Card) {
+    fun addCard(gameCard: GameCard) {
         cardList.value?.apply {
-            add(card)
+            add(gameCard)
         }
         cardList.value = cardList.value
     }

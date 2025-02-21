@@ -14,7 +14,7 @@ import com.cardgamesstudio.monstersclash.constants.HAND_CARDS_TOTAL_ANGLE
 import com.cardgamesstudio.monstersclash.constants.HIGHLIGHTED_CARD_GROW_RATIO
 import com.cardgamesstudio.monstersclash.constants.HIGHLIGHTED_X_OFFSET_RATIO
 import com.cardgamesstudio.monstersclash.constants.HIGHLIGHTED_Y_OFFSET_RATIO
-import com.cardgamesstudio.monstersclash.model.Card
+import com.cardgamesstudio.monstersclash.model.GameCard
 import com.cardgamesstudio.monstersclash.viewmodel.HandCardsViewModel
 import kotlin.math.sqrt
 
@@ -66,14 +66,14 @@ class HandCardsView(
 
     }
 
-    fun createHandCards(cardList: List<Card>) {
+    fun createHandCards(gameCardList: List<GameCard>) {
 
         cardViews.forEach {
             gameAreaLayout.removeView(it.imageView)
         }
         cardViews.clear()
 
-        for (card in cardList) {
+        for (card in gameCardList) {
             val cardView =
                 CardView(ImageView(gameAreaLayout.context), handCardsContainer, card.cardImage)
             cardView.setDimensions(cardWidth)

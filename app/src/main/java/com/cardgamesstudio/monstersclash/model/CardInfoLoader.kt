@@ -8,38 +8,74 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import com.cardgamesstudio.monstersclash.R
+import com.cardgamesstudio.monstersclash.localdata.CardRepository
+import com.cardgamesstudio.monstersclash.localdata.LocalCard
+import com.cardgamesstudio.monstersclash.model.repository_data.CardEntity
+import io.github.jan.supabase.SupabaseClient
+import io.github.jan.supabase.postgrest.from
+import io.github.jan.supabase.postgrest.query.Columns
+import io.github.jan.supabase.storage.storage
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 
-class CardInfoLoader(private val gameCard: ViewGroup) {
+class CardInfoLoader(private val supabaseClient: SupabaseClient, private val cardRepository: CardRepository, private val gameCard: ViewGroup) {
 
-    private val nameToCard = mutableMapOf<String, Card>()
+    private val nameToGameCard = mutableMapOf<String, GameCard>()
 
-    fun loadFromDatabase() {
-        // just a stub method
+    suspend fun loadAllCards() {
+        val latestCardTime = cardRepository.getLatestUpdatedAt()
 
-        val monsterImageBitmap =
-            BitmapFactory.decodeResource(gameCard.context.resources, R.mipmap.monster_1)
+        var cardList = listOf<CardEntity>()
 
-        val monster = Monster(
-            "Monstro",
-            "Descricao do monstro",
-            80,
-            100,
-            monsterImageBitmap
-        )
+        try {
+            withContext(Dispatchers.IO) {
+                cardList = supabaseClient
+                    .from("cards")
+                    .select(Columns.ALL) {
+                        if(latestCardTime != null) {
+                            filter {
+                                CardEntity::updatedAt gt latestCardTime
+                            }
+                        }
+                    }
+                    .decodeList<CardEntity>()
+            }
 
-        val cardImage = createCardImage(monster, gameCard)
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
 
-        nameToCard[monster.name] = Card(monster, cardImage)
+
+        if(cardList.isNotEmpty()) {
+            val cardsBucket = supabaseClient.storage.from("cards")
+            val cardToBytesOfImage = mutableMapOf<CardEntity, ByteArray>()
+            cardList.forEach {
+                val bytes = cardsBucket.downloadPublic(it.monsterImageRef)
+                cardToBytesOfImage[it] = bytes
+            }
+
+            val cardList = cardToBytesOfImage.map { (card, bytesOfImage) ->
+                val monsterImageBitMap = BitmapFactory.decodeByteArray(bytesOfImage, 0, bytesOfImage.size)
+                val monster = Monster(card.name, card.description, card.attack, card.defense, monsterImageBitMap)
+                val cardImage = createCardImage(monster, gameCard)
+                val gameCard = GameCard(monster, cardImage)
+
+                nameToGameCard[monster.name] = gameCard
+            }
+
+        }
+
+
     }
 
-    fun getNameToCardData(): MutableMap<String, Card> {
-        return nameToCard
+    fun getNameToCardData(): MutableMap<String, GameCard> {
+        return nameToGameCard
     }
 
     private fun createCardImage(
         monster: Monster,
         gameCard: ViewGroup
-    ) : Bitmap {
+    ): Bitmap {
         gameCard.findViewById<ImageView>(R.id.card_monster_img).setImageBitmap(monster.monsterImage)
         gameCard.findViewById<TextView>(R.id.card_title_txt).text = monster.name
         gameCard.findViewById<TextView>(R.id.card_desc_txt).text = monster.description
@@ -59,7 +95,11 @@ class CardInfoLoader(private val gameCard: ViewGroup) {
 
 
     private fun convertLayoutToBitmap(layout: View): Bitmap {
-        val bitmap = Bitmap.createBitmap(layout.measuredWidth, layout.measuredHeight, Bitmap.Config.ARGB_8888)
+        val bitmap = Bitmap.createBitmap(
+            layout.measuredWidth,
+            layout.measuredHeight,
+            Bitmap.Config.ARGB_8888
+        )
         val canvas = Canvas(bitmap)
 
         layout.draw(canvas)

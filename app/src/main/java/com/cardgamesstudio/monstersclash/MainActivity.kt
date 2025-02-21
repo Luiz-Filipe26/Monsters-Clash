@@ -45,6 +45,7 @@ class MainActivity : AppCompatActivity() {
             supabaseUrl = getString(R.string.SUPABASE_URL),
             supabaseKey =  getString(R.string.SUPABASE_ANON_KEY)
         ) {
+            install(Storage)
             install(Postgrest)
 
 
@@ -66,31 +67,12 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun loadData() {
+        Toast.makeText(this@MainActivity, "Carregando recursos", Toast.LENGTH_SHORT).show()
+        binding.progressBar.visibility = android.view.View.VISIBLE
+
         lifecycleScope.launch {
-            Toast.makeText(this@MainActivity, "Carregando recursos", Toast.LENGTH_SHORT).show()
 
-            binding.progressBar.visibility = android.view.View.VISIBLE
 
-            var cardList = listOf<CardEntity>()
-            try {
-                withContext(Dispatchers.IO) {
-                    cardList = supabaseClient
-                        .from("cards")
-                        .select(Columns.ALL)
-
-                        .decodeList<CardEntity>()
-                }
-
-            } catch (e: Exception) {
-                e.printStackTrace()
-            } finally {
-                if(cardList.isNotEmpty()) {
-
-                }
-                binding.progressBar.visibility = android.view.View.GONE
-
-                binding.playBtn.isEnabled = isDataLoaded
-            }
         }
     }
 }

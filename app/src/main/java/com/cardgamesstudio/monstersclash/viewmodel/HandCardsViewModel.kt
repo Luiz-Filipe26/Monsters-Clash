@@ -3,15 +3,15 @@ package com.cardgamesstudio.monstersclash.viewmodel
 import com.cardgamesstudio.monstersclash.model.HandCards
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.cardgamesstudio.monstersclash.model.Card
+import com.cardgamesstudio.monstersclash.model.GameCard
 
 class HandCardsViewModel(private val handCards: HandCards){
 
-    private val displayCardList = MutableLiveData<MutableList<Card>>()
+    private val displayGameCardList = MutableLiveData<MutableList<GameCard>>()
     private val displayCurrentCardIndex = MutableLiveData(0)
 
-    fun getDisplayCardList(): LiveData<MutableList<Card>> {
-        return displayCardList
+    fun getDisplayCardList(): LiveData<MutableList<GameCard>> {
+        return displayGameCardList
     }
 
     fun getDisplayCurrentCardIndex(): LiveData<Int> {
@@ -31,9 +31,9 @@ class HandCardsViewModel(private val handCards: HandCards){
     }
 
     init {
-        displayCardList.value = handCards.getCardList().value
+        displayGameCardList.value = handCards.getCardList().value
         handCards.getCardList().observeForever { newCardList ->
-            displayCardList.value = newCardList
+            displayGameCardList.value = newCardList
         }
 
         displayCurrentCardIndex.value = handCards.getCurrentCard().value

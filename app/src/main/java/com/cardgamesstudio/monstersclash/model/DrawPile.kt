@@ -1,30 +1,30 @@
 package com.cardgamesstudio.monstersclash.model
 
-class DrawPile(nameToCard : MutableMap<String, Card>) {
-    private val cardList = createCardList(nameToCard)
+class DrawPile(nameToGameCard : MutableMap<String, GameCard>) {
+    private val cardList = createCardList(nameToGameCard)
     private var currentCard = 0
 
-    private fun createCardList(nameToCard: MutableMap<String, Card>) : MutableList<Card> {
-        val newCardList = mutableListOf<Card>()
-        val card = nameToCard.iterator().next().value
+    private fun createCardList(nameToGameCard: MutableMap<String, GameCard>) : MutableList<GameCard> {
+        val newGameCardList = mutableListOf<GameCard>()
+        val card = nameToGameCard.iterator().next().value
 
         for(i in 1..10) {
-            newCardList.add(card)
+            newGameCardList.add(card)
         }
 
-        newCardList.shuffle()
+        newGameCardList.shuffle()
 
-        return newCardList
+        return newGameCardList
     }
 
-    fun take(numOfCards: Int): List<Card> {
+    fun take(numOfCards: Int): List<GameCard> {
         val availableCards = cardList.size - currentCard
         val numToTake = minOf(numOfCards, availableCards)
 
         return List(numToTake) { cardList[currentCard++] }
     }
 
-    fun getCard(): Card? {
+    fun getCard(): GameCard? {
         if (currentCard >= cardList.size) return null
         return cardList[currentCard++]
     }

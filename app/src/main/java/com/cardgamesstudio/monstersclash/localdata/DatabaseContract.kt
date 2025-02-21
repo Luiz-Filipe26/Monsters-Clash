@@ -18,7 +18,10 @@ class DatabaseContract {
         val COLUMN_NAME_DESCRIPTION = "description"
         val COLUMN_NAME_ATTACK = "attack"
         val COLUMN_NAME_DEFENSE = "defense"
+        val COLUMN_NAME_TYPE = "type"
         val COLUMN_NAME_MONSTER_IMAGE = "monster_image"
+        val COLUMN_NAME_CARD_IMAGE = "card_image"
+        val COLUMN_NAME_UPDATED_AT = "updated_at"
 
         val SQL_CREATE = "CREATE TABLE IF NOT EXISTS ${TABLE_NAME} (" +
                 "${COLUMN_NAME_ID} INTEGER PRIMARY KEY AUTOINCREMENT," +
@@ -26,7 +29,11 @@ class DatabaseContract {
                 "${COLUMN_NAME_DESCRIPTION} TEXT," +
                 "${COLUMN_NAME_ATTACK} INTEGER," +
                 "${COLUMN_NAME_DEFENSE} INTEGER," +
-                "${COLUMN_NAME_MONSTER_IMAGE} BLOB);"
+                "${COLUMN_NAME_TYPE} TEXT," +
+                "${COLUMN_NAME_MONSTER_IMAGE} BLOB," +
+                "${COLUMN_NAME_CARD_IMAGE} BLOB," +
+                "${COLUMN_NAME_UPDATED_AT} TEXT DEFAULT CURRENT_TIMESTAMP" +
+                ");"
 
         val SQL_DROP = "DROP TABLE IF EXISTS ${TABLE_NAME};"
     }
