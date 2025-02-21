@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="Typos">
+    <string name="SUPABASE_URL">https://pzubfjnhybftheqpsfav.supabase.co</string>
+    <string name="SUPABASE_ANON_KEY">eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InB6dWJmam5oeWJmdGhlcXBzZmF2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDAwMDU4MTIsImV4cCI6MjA1NTU4MTgxMn0.u_rdbxYrrauCqpGGdHbMmQF5SQEaF9jp27I0yl0MA20</string>
+</resources>

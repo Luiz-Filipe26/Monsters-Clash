@@ -1,39 +1,34 @@
 package com.cardgamesstudio.monstersclash
 
-import com.cardgamesstudio.monstersclash.model.HandCards
-import android.app.AlertDialog
-import android.graphics.Color
-import android.graphics.PorterDuff
-import android.graphics.PorterDuffColorFilter
-import android.graphics.Rect
 import android.os.Bundle
-import android.util.Log
-import android.view.LayoutInflater
-import android.view.ViewGroup
-import android.widget.ImageView
-import android.widget.ProgressBar
+import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
-import androidx.core.view.children
-import androidx.core.view.doOnLayout
-import com.cardgamesstudio.monstersclash.constants.Direction
+import androidx.lifecycle.lifecycleScope
 import com.cardgamesstudio.monstersclash.databinding.ActivityMainBinding
-import com.cardgamesstudio.monstersclash.model.CardInfoLoader
-import com.cardgamesstudio.monstersclash.model.DrawPile
-import com.cardgamesstudio.monstersclash.view.GestureHandler
-import com.cardgamesstudio.monstersclash.view.HandCardsView
-import com.cardgamesstudio.monstersclash.viewmodel.HandCardsViewModel
-
+import com.cardgamesstudio.monstersclash.model.repository_data.CardEntity
+import io.github.jan.supabase.SupabaseClient
+import io.github.jan.supabase.createSupabaseClient
+import io.github.jan.supabase.postgrest.Postgrest
+import io.github.jan.supabase.postgrest.from
+import io.github.jan.supabase.postgrest.query.Columns
+import io.github.jan.supabase.serializer.KotlinXSerializer
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import kotlinx.serialization.ExperimentalSerializationApi
+import kotlinx.serialization.json.Json
+import kotlinx.serialization.json.JsonNamingStrategy
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
-    private lateinit var handCardsView: HandCardsView
-    private lateinit var handCards: HandCards
-    private var gestureHandler = GestureHandler()
+    private lateinit var supabaseClient: SupabaseClient
+    private var isDataLoaded = false
 
+    @OptIn(ExperimentalSerializationApi::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -46,46 +41,56 @@ class MainActivity : AppCompatActivity() {
             insets
         }
 
-        val inflater = LayoutInflater.from(this)
-        val gameCard = inflater.inflate(R.layout.game_card, null) as ViewGroup
-
-        val cardInfoLoader = CardInfoLoader(gameCard)
-        cardInfoLoader.loadFromDatabase()
-        val drawPile = DrawPile(cardInfoLoader.getNameToCardData())
-        val cardList = drawPile.take(7).toMutableList()
-
-        handCards = HandCards(cardList, 4)
-        val handCardsViewModel = HandCardsViewModel(handCards)
-        handCardsView = HandCardsView(binding.main, binding.handCardsContainer, handCardsViewModel)
-
-        handCardsView.createHandCards(cardList)
+        supabaseClient = createSupabaseClient(
+            supabaseUrl = getString(R.string.SUPABASE_URL),
+            supabaseKey =  getString(R.string.SUPABASE_ANON_KEY)
+        ) {
+            install(Postgrest)
 
 
+            defaultSerializer = KotlinXSerializer(Json {
+                encodeDefaults = true
+                ignoreUnknownKeys = true
+                prettyPrint = true
+                namingStrategy = JsonNamingStrategy.SnakeCase
+            })
+        }
 
-        fillManaBar(3)
-        updateHealthBar(60, 180)
-    }
+        loadData()
 
-    private fun fillManaBar(manaPoints: Int) {
-        val manaBar = binding.manaBar.root
+        binding.playBtn.isEnabled = false
 
-        manaBar.children.forEachIndexed { index, child ->
-            val manaPointImg = child as ImageView
-            if (index < manaPoints) {
-                manaPointImg.colorFilter =
-                    PorterDuffColorFilter(Color.parseColor("#206080"), PorterDuff.Mode.SRC_IN)
-            } else {
-                manaPointImg.clearColorFilter()
-            }
+        binding.playBtn.setOnClickListener {
+            Toast.makeText(this, "Botão clicado!", Toast.LENGTH_LONG).show()
         }
     }
 
-    private fun updateHealthBar(hpAtual: Int, hpTotal: Int) {
-        val healthBarContainer = binding.healthBarContainer.root
-        val progressBar = healthBarContainer.findViewById<ProgressBar>(R.id.hpProgressBar)
+    private fun loadData() {
+        lifecycleScope.launch {
+            Toast.makeText(this@MainActivity, "Carregando recursos", Toast.LENGTH_SHORT).show()
 
-        val progressPercentage = (hpAtual * 100) / hpTotal
-        progressBar.progress = progressPercentage
-        binding.healthBarTxt.text = "HP: $hpAtual/$hpTotal"
+            binding.progressBar.visibility = android.view.View.VISIBLE
+
+            var cardList = listOf<CardEntity>()
+            try {
+                withContext(Dispatchers.IO) {
+                    cardList = supabaseClient
+                        .from("cards")
+                        .select(Columns.ALL)
+
+                        .decodeList<CardEntity>()
+                }
+
+            } catch (e: Exception) {
+                e.printStackTrace()
+            } finally {
+                if(cardList.isNotEmpty()) {
+
+                }
+                binding.progressBar.visibility = android.view.View.GONE
+
+                binding.playBtn.isEnabled = isDataLoaded
+            }
+        }
     }
 }
